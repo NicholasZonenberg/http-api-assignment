@@ -22,7 +22,7 @@ const urlStruct = {
   '/internal': jsonHandler.internal,
   notFound: jsonHandler.notFound,
 };
-
+ 
 // handle HTTP requests. In node the HTTP server will automatically
 // send this function request and pre-filled response objects.
 const onRequest = (request, response) => {

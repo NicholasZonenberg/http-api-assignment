@@ -18,10 +18,10 @@ const getIndex = (request, response) => {
 };
 
 const getCss = (request, response) => {
-  response.writeHead(200, {'Content-Type' : 'text/css'})
+  response.writeHead(200, { 'Content-Type': 'text/css' });
   response.write(css);
   response.end();
-}
+};
 
 // exports to set functions to public.
 // In this syntax, you can do getIndex:getIndex, but if they

@@ -6,8 +6,6 @@ const query = require('querystring');
 const htmlHandler = require('./htmlResponses.js');
 // pull in our json response handler file
 const jsonHandler = require('./jsonResponses.js');
-const css = require
-
 
 // set the port. process.env.PORT and NODE_PORT are for servers like heroku
 const port = process.env.PORT || process.env.NODE_PORT || 3000;

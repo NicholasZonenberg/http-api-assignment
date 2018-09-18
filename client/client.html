@@ -6,7 +6,95 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
+    //function to handle our xhr response
+    const handleResponse = (xhr) => {
+      //grab the content section
+      const content = document.querySelector("#content");
+      const type = xhr.getResponseHeader('content-type'); 
+      
+      const obj = JSON.parse(xhr.response);
 
+      ///parse the response text into a JSON object
+      if (type === 'application/json'){
+        console.log(obj);
+      }
+      else if(type === 'text/xml'){
+        console.log(xhr.responseXML);
+      }
+      
+      //check the xhr status code and handle accordingly
+      switch(xhr.status) {
+        case 200: //success
+          content.innerHTML = `<b>Success</b> <br> <p id='temp'></p>`;
+          if (type === 'application/json'){
+            document.getElementById('temp').innerHTML=obj.message;
+          }
+          else if(type === 'text/xml'){
+            document.getElementById('temp').innerHTML=xhr.responseXML.querySelector('message').textContent;
+          }
+          break;
+        case 400: //bad request 
+          content.innerHTML = `<b>Bad Request</b> <br> <p id='temp'></p>`;
+          document.getElementById('temp').innerHTML=obj.message;
+          break;
+        case 401:
+          content.innerHTML = `<b>Unauthorized</b> <br> <p id='temp'></p>`;
+          document.getElementById('temp').innerHTML=obj.message;
+          break;
+        case 403:
+          content.innerHTML = `<b>Forbidden</b> <br> <p id='temp'></p>`;
+          document.getElementById('temp').innerHTML=obj.message;
+          break;
+        case 500:
+          content.innerHTML = `<b>Internal Error</b> <br> <p id='temp'></p>`;
+          document.getElementById('temp').innerHTML=obj.message;
+          break;
+        case 501:
+          content.innerHTML = `<b>Not Implemented</b> <br> <p id='temp'></p>`;
+          document.getElementById('temp').innerHTML=obj.message;
+          break;
+        case 404: //not found (requested resource does not exist)
+          content.innerHTML = `<b>Resource Not Found</b> <br> <p id='temp'></p>`;
+          document.getElementById('temp').innerHTML=obj.message;
+          break;
+        default: //default other errors we are not handling in this example
+          content.innerHTML = `Error code not implemented by client.`;
+          break;
+      }
+    };
+    
+    //function to send ajax
+    const sendAjax = (url, acceptedType) => {
+      //create a new xhr (ajax) request. 
+      //Remember that these are ASYNCHRONOUS
+      const xhr = new XMLHttpRequest();
+      //set the xhr to a GET request to a certain URL
+      xhr.open('GET', url);
+      //Set the accept headers to the desired response mime type
+      //Server does NOT have to support this. It is a gentle request.
+      xhr.setRequestHeader ("Accept", acceptedType);
+
+      //When the xhr loads, call handleResponse and pass the xhr object
+      xhr.onload = () => handleResponse(xhr);
+      
+      //send our ajax request to the server
+      xhr.send();
+    };
+
+    //initialization function
+    const init = () => {
+      const values = document.querySelector("#page");
+      const sendButton = document.querySelector("#send");
+      const type = document.querySelector("#type");
+      
+      //functions to call sendAjax for us with the correct parameters
+      const send = () => sendAjax(document.getElementById('page').value, document.getElementById('type').value);
+      
+      //attach the correct functions to the correct events
+      sendButton.addEventListener('click', send);
+    };
+
+    window.onload = init;
   </script>
 </head>
 <body>

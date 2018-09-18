@@ -6,6 +6,8 @@ const query = require('querystring');
 const htmlHandler = require('./htmlResponses.js');
 // pull in our json response handler file
 const jsonHandler = require('./jsonResponses.js');
+const css = require
+
 
 // set the port. process.env.PORT and NODE_PORT are for servers like heroku
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
@@ -13,6 +15,7 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 // key:value object to look up URL routes to specific functions
 const urlStruct = {
   '/': htmlHandler.getIndex,
+  '/style.css': htmlHandler.getCss,
   '/success': jsonHandler.success,
   '/badRequest': jsonHandler.badRequest,
   '/unauthorized': jsonHandler.unauthorized,

@@ -6,6 +6,7 @@ const fs = require('fs'); // pull in the file system module
 // synchronous operations or load entire files into memory.
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);
 const css = fs.readFileSync(`${__dirname}/../client/style.css`);
+const csvData = fs.readFileSync(`${__dirname}/../src/user_fitbit_data.txt`);
 
 // function to handle the index page
 const getIndex = (request, response) => {
@@ -16,6 +17,12 @@ const getIndex = (request, response) => {
   // send the response to the client.
   response.end();
 };
+
+const getData = (request, response) => {
+  response.writeHead(200, {'Content-Type': 'text/html'});
+  response.write(csvData);
+  response.end();
+}
 
 const getCss = (request, response) => {
   response.writeHead(200, { 'Content-Type': 'text/css' });
@@ -29,4 +36,5 @@ const getCss = (request, response) => {
 module.exports = {
   getIndex,
   getCss,
+  getData,
 };

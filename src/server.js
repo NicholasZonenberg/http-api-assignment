@@ -6,6 +6,13 @@ const query = require('querystring');
 const htmlHandler = require('./htmlResponses.js');
 // pull in our json response handler file
 const jsonHandler = require('./jsonResponses.js');
+var $ = jQuery = require('jquery');
+var jqueryCsv = require("jquery-csv")
+//var csv=require('jquery-csv');
+
+const fs = require('fs'); // pull in the file system module
+
+
 
 // set the port. process.env.PORT and NODE_PORT are for servers like heroku
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
@@ -20,6 +27,7 @@ const urlStruct = {
   '/forbidden': jsonHandler.forbidden,
   '/notImplemented': jsonHandler.notImplemented,
   '/internal': jsonHandler.internal,
+  '/data': htmlHandler.getData,
   notFound: jsonHandler.notFound,
 };
  

@@ -5,7 +5,10 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/babel">
+    var inputData = [];
+
     //function to handle our xhr response
     const handleResponse = (xhr) => {
       //grab the content section
@@ -80,6 +83,129 @@
       //send our ajax request to the server
       xhr.send();
     };
+
+    function formatDate (now) {
+      var year = "" + now.getFullYear();
+      var month = "" + (now.getMonth() + 1); if (month.length == 1) { month = "0" + month; }
+      var day = "" + now.getDate(); if (day.length == 1) { day = "0" + day; }
+      var hour = "" + now.getHours(); if (hour.length == 1) { hour = "0" + hour; }
+      var minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
+      var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
+      return year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".000";
+    }
+
+    $(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: "/data",
+        dataType: "text",
+        success: function(data) {
+          var result = CSVToArray(data,',');
+          for(var x = 1; x < result.length; x++)
+          {
+            if(result[x][4]){  
+              var temp = 0;
+              var sleepEff = "efficiency";
+              temp = result[x][4].indexOf(sleepEff);
+              sleepEff = parseInt(result[x][4].substring(temp + 12, temp + 15));
+              //console.log(sleepEff);
+              var sleepEnd = "endTime";
+              temp = result[x][4].indexOf(sleepEnd);
+              sleepEnd = result[x][4].substring(temp + 10, temp + 33);
+              //console.log(sleepEnd);
+              var sleepTotal = "totalMinutesAsleep";
+              temp = result[x][4].indexOf(sleepTotal);
+              sleepTotal = parseInt(result[x][4].substring(temp + 20, temp + 25));
+              //console.log(sleepTotal);
+              var bedTotal = "totalTimeInBed";
+              temp = result[x][4].indexOf(bedTotal);
+              bedTotal = parseInt(result[x][4].substring(temp + 16, temp + 20));
+              //console.log(bedTotal);
+              var sleepStart = new Date(sleepEnd);
+              sleepStart.setMinutes(-bedTotal);
+              sleepStart = formatDate(sleepStart);
+              //console.log(sleepStart);
+              var entry={
+                sleepEfficiency: sleepEff,
+                sleepStartTime: sleepStart,
+                sleepEndTime: sleepEnd,
+                sleepDuration: bedTotal,
+                sleepEventTotal: sleepTotal,
+              }
+              inputData.push(entry);
+            }
+          }
+          console.log(inputData);
+        }
+     });
+    });
+
+    // ref: http://stackoverflow.com/a/1293163/2343
+    // This will parse a delimited string into an array of
+    // arrays. The default delimiter is the comma, but this
+    // can be overriden in the second argument.
+    function CSVToArray( strData, strDelimiter ){
+      // Check to see if the delimiter is defined. If not,
+      // then default to comma.
+      strDelimiter = (strDelimiter || ",");
+      // Create a regular expression to parse the CSV values.
+      var objPattern = new RegExp((
+          // Delimiters.
+          "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+          // Quoted fields.
+          "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+
+          // Standard fields.
+          "([^\"\\" + strDelimiter + "\\r\\n]*))"
+        ),
+      "gi"
+      );
+      // Create an array to hold our data. Give the array
+      // a default empty first row.
+      var arrData = [[]];
+      // Create an array to hold our individual pattern
+      // matching groups.
+      var arrMatches = null;
+      // Keep looping over the regular expression matches
+      // until we can no longer find a match.
+      while (arrMatches = objPattern.exec( strData )){
+        // Get the delimiter that was found.
+        var strMatchedDelimiter = arrMatches[ 1 ];
+        // Check to see if the given delimiter has a length
+        // (is not the start of string) and if it matches
+        // field delimiter. If id does not, then we know
+        // that this delimiter is a row delimiter.
+        if (
+          strMatchedDelimiter.length &&
+          strMatchedDelimiter !== strDelimiter
+          ){
+          // Since we have reached a new row of data,
+          // add an empty row to our data array.
+          arrData.push( [] );
+        }
+        var strMatchedValue;
+        // Now that we have our delimiter out of the way,
+        // let's check to see which kind of value we
+        // captured (quoted or unquoted).
+        if (arrMatches[ 2 ]){
+          // We found a quoted value. When we capture
+          // this value, unescape any double quotes.
+          strMatchedValue = arrMatches[ 2 ].replace(
+            new RegExp( "\"\"", "g" ),
+            "\""
+          );
+        } else {
+          // We found a non-quoted value.
+          strMatchedValue = arrMatches[ 3 ];
+        }
+        // Now that we have our value string, let's add
+        // it to the data array.
+        arrData[ arrData.length - 1 ].push( strMatchedValue );
+      }
+      // Return the parsed data.
+      console.log( arrData );
+      return( arrData );
+    }
 
     //initialization function
     const init = () => {

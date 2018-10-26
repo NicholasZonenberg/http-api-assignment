@@ -28,6 +28,7 @@ const urlStruct = {
   '/notImplemented': jsonHandler.notImplemented,
   '/internal': jsonHandler.internal,
   '/data': htmlHandler.getData,
+  '/user': htmlHandler.getJson,
   notFound: jsonHandler.notFound,
 };
  

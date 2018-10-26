@@ -136,6 +136,24 @@
             }
           }
           console.log(inputData);
+          $.ajax({
+            type: "GET",
+            url: "/user",
+            dataType: "json",
+            success: function(dat) {
+              console.log('JSON GET');
+              console.log(dat);
+              //var finalOut = JSON.parse(dat);
+              dat.DaysSleep={
+                UID: "ec32f960-93fe-11e8-af77-8bd0e3d9a935",
+                deviceId: "6RWWKH",
+                deviceType: 1,
+                sleep_entries: inputData,
+              };
+              console.log(JSON.stringify(dat));
+              console.log(dat);
+            }
+          });
         }
      });
     });

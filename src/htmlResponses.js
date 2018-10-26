@@ -7,6 +7,7 @@ const fs = require('fs'); // pull in the file system module
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);
 const css = fs.readFileSync(`${__dirname}/../client/style.css`);
 const csvData = fs.readFileSync(`${__dirname}/../src/user_fitbit_data.txt`);
+const userDat = fs.readFileSync(`${__dirname}/../src/user_profile_data.json`);
 
 // function to handle the index page
 const getIndex = (request, response) => {
@@ -30,6 +31,14 @@ const getCss = (request, response) => {
   response.end();
 };
 
+const getJson = (request, response) => {
+  console.log("returning json");
+  console.log(userDat);
+  response.writeHead(200, { 'Content-Type': 'application/json' });
+  response.write(userDat);
+  response.end();
+};
+
 // exports to set functions to public.
 // In this syntax, you can do getIndex:getIndex, but if they
 // are the same name, you can short handle to just getIndex,
@@ -37,4 +46,5 @@ module.exports = {
   getIndex,
   getCss,
   getData,
+  getJson,
 };

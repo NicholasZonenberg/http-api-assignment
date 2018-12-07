@@ -29,6 +29,7 @@ const urlStruct = {
   '/internal': jsonHandler.internal,
   '/data': htmlHandler.getData,
   '/user': htmlHandler.getJson,
+  '/script': htmlHandler.getJs,
   notFound: jsonHandler.notFound,
 };
  

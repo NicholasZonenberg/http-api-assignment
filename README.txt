@@ -1,19 +1,20 @@
 The code that I created is in:
-client/client.html
+src/htmlResponse.js
 
-To launch the webpage:
+To setup app:
+npm install
+
+To launch the app:
 npm start
 
-To view the transform:
-right click on webpage
-click inspect
-select the console tab
+To view the output:
+open src/output.txt
 
-Function to handle date formatting (used from stack exchange):
-formatDate
+Function to handle getting indexes of substrings (used from stack exchange):
+getIndicesOf
 
-Function for handeling CSV to usable data (used from stack exchange):
-CSVToArray
+Code written to handle taking in the txt to usable data (custom):
+processJSON
 
-Code written to handle the data array and get the json that we are looking for (custom):
-$(document).ready(function() {
+Code written to process the data into the output (custom):
+getData

@@ -6,8 +6,491 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ajv/6.6.1/ajv.bundle.js"></script>
   <script type="text/babel">
     var inputData = [];
+
+    var schema = {
+      "definitions": {},
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "$id": "http://example.com/root.json",
+      "type": "object",
+      "title": "The Root Schema",
+      "required": [
+        "profiledata",
+        "DaysSleep"
+      ],
+      "properties": {
+        "profiledata": {
+          "$id": "#/properties/profiledata",
+          "type": "object",
+          "title": "The Profiledata Schema",
+          "required": [
+            "Birthday",
+            "Gender",
+            "Height",
+            "Weight",
+            "WorkSleepAmount",
+            "WorkToFallAsleepMinutes",
+            "WorkWakeHowManyTimes",
+            "WorkEachAwakeMinutes",
+            "WorkQualityOfSleep",
+            "WorkIWakeUpWith",
+            "WorkNeedSleep",
+            "WorkDipInEnergy",
+            "WorkDipTime",
+            "WorkUsualBedtime",
+            "WorkUsualWakeTime",
+            "WorkTimeToWakeUp",
+            "WeekendSleepAmount",
+            "WeekendToFallAsleepMinutes",
+            "WeekendWakeHowManyTimes",
+            "WeekendEachAwakeMinutes",
+            "WeekendQualityOfSleep",
+            "WeekendIWakeUpWith",
+            "WeekendNeedSleep",
+            "WeekendDipInEnergy",
+            "WeekendDipTime",
+            "WeekendUsualBedtime",
+            "WeekendUsualWakeTime",
+            "WeekendTimeToWakeUp",
+            "OverallTypeLevelAlertness",
+            "OverallTypeLevelMental",
+            "OverallTypeLevelPhysical",
+            "OverallTypeLevelMood",
+            "TypeOfPerson"
+          ],
+          "properties": {
+            "Birthday": {
+              "$id": "#/properties/profiledata/properties/Birthday",
+              "type": "string",
+              "title": "The Birthday Schema",
+              "default": "",
+              "examples": [
+                "1972-06-27T16:00:00Z"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "Gender": {
+              "$id": "#/properties/profiledata/properties/Gender",
+              "type": "string",
+              "title": "The Gender Schema",
+              "default": "",
+              "examples": [
+                "Male"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "Height": {
+              "$id": "#/properties/profiledata/properties/Height",
+              "type": "integer",
+              "title": "The Height Schema",
+              "default": 0,
+              "examples": [
+                66
+              ]
+            },
+            "Weight": {
+              "$id": "#/properties/profiledata/properties/Weight",
+              "type": "integer",
+              "title": "The Weight Schema",
+              "default": 0,
+              "examples": [
+                164
+              ]
+            },
+            "WorkSleepAmount": {
+              "$id": "#/properties/profiledata/properties/WorkSleepAmount",
+              "type": "integer",
+              "title": "The Worksleepamount Schema",
+              "default": 0,
+              "examples": [
+                480
+              ]
+            },
+            "WorkToFallAsleepMinutes": {
+              "$id": "#/properties/profiledata/properties/WorkToFallAsleepMinutes",
+              "type": "integer",
+              "title": "The Worktofallasleepminutes Schema",
+              "default": 0,
+              "examples": [
+                10
+              ]
+            },
+            "WorkWakeHowManyTimes": {
+              "$id": "#/properties/profiledata/properties/WorkWakeHowManyTimes",
+              "type": "integer",
+              "title": "The Workwakehowmanytimes Schema",
+              "default": 0,
+              "examples": [
+                0
+              ]
+            },
+            "WorkEachAwakeMinutes": {
+              "$id": "#/properties/profiledata/properties/WorkEachAwakeMinutes",
+              "type": "integer",
+              "title": "The Workeachawakeminutes Schema",
+              "default": 0,
+              "examples": [
+                0
+              ]
+            },
+            "WorkQualityOfSleep": {
+              "$id": "#/properties/profiledata/properties/WorkQualityOfSleep",
+              "type": "string",
+              "title": "The Workqualityofsleep Schema",
+              "default": "",
+              "examples": [
+                "Good"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "WorkIWakeUpWith": {
+              "$id": "#/properties/profiledata/properties/WorkIWakeUpWith",
+              "type": "string",
+              "title": "The Workiwakeupwith Schema",
+              "default": "",
+              "examples": [
+                "Without"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "WorkNeedSleep": {
+              "$id": "#/properties/profiledata/properties/WorkNeedSleep",
+              "type": "integer",
+              "title": "The Workneedsleep Schema",
+              "default": 0,
+              "examples": [
+                420
+              ]
+            },
+            "WorkDipInEnergy": {
+              "$id": "#/properties/profiledata/properties/WorkDipInEnergy",
+              "type": "string",
+              "title": "The Workdipinenergy Schema",
+              "default": "",
+              "examples": [
+                "Yes"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "WorkDipTime": {
+              "$id": "#/properties/profiledata/properties/WorkDipTime",
+              "type": "string",
+              "title": "The Workdiptime Schema",
+              "default": "",
+              "examples": [
+                "2:30 PM"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "WorkUsualBedtime": {
+              "$id": "#/properties/profiledata/properties/WorkUsualBedtime",
+              "type": "string",
+              "title": "The Workusualbedtime Schema",
+              "default": "",
+              "examples": [
+                "11:00 PM"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "WorkUsualWakeTime": {
+              "$id": "#/properties/profiledata/properties/WorkUsualWakeTime",
+              "type": "string",
+              "title": "The Workusualwaketime Schema",
+              "default": "",
+              "examples": [
+                "7:00 AM"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "WorkTimeToWakeUp": {
+              "$id": "#/properties/profiledata/properties/WorkTimeToWakeUp",
+              "type": "integer",
+              "title": "The Worktimetowakeup Schema",
+              "default": 0,
+              "examples": [
+                10
+              ]
+            },
+            "WeekendSleepAmount": {
+              "$id": "#/properties/profiledata/properties/WeekendSleepAmount",
+              "type": "integer",
+              "title": "The Weekendsleepamount Schema",
+              "default": 0,
+              "examples": [
+                420
+              ]
+            },
+            "WeekendToFallAsleepMinutes": {
+              "$id": "#/properties/profiledata/properties/WeekendToFallAsleepMinutes",
+              "type": "integer",
+              "title": "The Weekendtofallasleepminutes Schema",
+              "default": 0,
+              "examples": [
+                10
+              ]
+            },
+            "WeekendWakeHowManyTimes": {
+              "$id": "#/properties/profiledata/properties/WeekendWakeHowManyTimes",
+              "type": "integer",
+              "title": "The Weekendwakehowmanytimes Schema",
+              "default": 0,
+              "examples": [
+                0
+              ]
+            },
+            "WeekendEachAwakeMinutes": {
+              "$id": "#/properties/profiledata/properties/WeekendEachAwakeMinutes",
+              "type": "integer",
+              "title": "The Weekendeachawakeminutes Schema",
+              "default": 0,
+              "examples": [
+                0
+              ]
+            },
+            "WeekendQualityOfSleep": {
+              "$id": "#/properties/profiledata/properties/WeekendQualityOfSleep",
+              "type": "string",
+              "title": "The Weekendqualityofsleep Schema",
+              "default": "",
+              "examples": [
+                "Good"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "WeekendIWakeUpWith": {
+              "$id": "#/properties/profiledata/properties/WeekendIWakeUpWith",
+              "type": "string",
+              "title": "The Weekendiwakeupwith Schema",
+              "default": "",
+              "examples": [
+                "With"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "WeekendNeedSleep": {
+              "$id": "#/properties/profiledata/properties/WeekendNeedSleep",
+              "type": "integer",
+              "title": "The Weekendneedsleep Schema",
+              "default": 0,
+              "examples": [
+                420
+              ]
+            },
+            "WeekendDipInEnergy": {
+              "$id": "#/properties/profiledata/properties/WeekendDipInEnergy",
+              "type": "string",
+              "title": "The Weekenddipinenergy Schema",
+              "default": "",
+              "examples": [
+                "Yes"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "WeekendDipTime": {
+              "$id": "#/properties/profiledata/properties/WeekendDipTime",
+              "type": "string",
+              "title": "The Weekenddiptime Schema",
+              "default": "",
+              "examples": [
+                "3:30 PM"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "WeekendUsualBedtime": {
+              "$id": "#/properties/profiledata/properties/WeekendUsualBedtime",
+              "type": "string",
+              "title": "The Weekendusualbedtime Schema",
+              "default": "",
+              "examples": [
+                "11:00 PM"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "WeekendUsualWakeTime": {
+              "$id": "#/properties/profiledata/properties/WeekendUsualWakeTime",
+              "type": "string",
+              "title": "The Weekendusualwaketime Schema",
+              "default": "",
+              "examples": [
+                "7:00 AM"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "WeekendTimeToWakeUp": {
+              "$id": "#/properties/profiledata/properties/WeekendTimeToWakeUp",
+              "type": "integer",
+              "title": "The Weekendtimetowakeup Schema",
+              "default": 0,
+              "examples": [
+                19
+              ]
+            },
+            "OverallTypeLevelAlertness": {
+              "$id": "#/properties/profiledata/properties/OverallTypeLevelAlertness",
+              "type": "string",
+              "title": "The Overalltypelevelalertness Schema",
+              "default": "",
+              "examples": [
+                "High"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "OverallTypeLevelMental": {
+              "$id": "#/properties/profiledata/properties/OverallTypeLevelMental",
+              "type": "string",
+              "title": "The Overalltypelevelmental Schema",
+              "default": "",
+              "examples": [
+                "High"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "OverallTypeLevelPhysical": {
+              "$id": "#/properties/profiledata/properties/OverallTypeLevelPhysical",
+              "type": "string",
+              "title": "The Overalltypelevelphysical Schema",
+              "default": "",
+              "examples": [
+                "Medium"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "OverallTypeLevelMood": {
+              "$id": "#/properties/profiledata/properties/OverallTypeLevelMood",
+              "type": "string",
+              "title": "The Overalltypelevelmood Schema",
+              "default": "",
+              "examples": [
+                "High"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "TypeOfPerson": {
+              "$id": "#/properties/profiledata/properties/TypeOfPerson",
+              "type": "integer",
+              "title": "The Typeofperson Schema",
+              "default": 0,
+              "examples": [
+                30
+              ]
+            }
+          }
+        },
+        "DaysSleep": {
+          "$id": "#/properties/DaysSleep",
+          "type": "object",
+          "title": "The Dayssleep Schema",
+          "required": [
+            "UID",
+            "deviceId",
+            "deviceType",
+            "sleep_entries"
+          ],
+          "properties": {
+            "UID": {
+              "$id": "#/properties/DaysSleep/properties/UID",
+              "type": "string",
+              "title": "The Uid Schema",
+              "default": "",
+              "examples": [
+                "ec32f960-93fe-11e8-af77-8bd0e3d9a935"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "deviceId": {
+              "$id": "#/properties/DaysSleep/properties/deviceId",
+              "type": "string",
+              "title": "The Deviceid Schema",
+              "default": "",
+              "examples": [
+                "6RWWKH"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "deviceType": {
+              "$id": "#/properties/DaysSleep/properties/deviceType",
+              "type": "integer",
+              "title": "The Devicetype Schema",
+              "default": 0,
+              "examples": [
+                1
+              ]
+            },
+            "sleep_entries": {
+              "$id": "#/properties/DaysSleep/properties/sleep_entries",
+              "type": "array",
+              "title": "The Sleep_entries Schema",
+              "items": {
+                "$id": "#/properties/DaysSleep/properties/sleep_entries/items",
+                "type": "object",
+                "title": "The Items Schema",
+                "required": [
+                  "sleepEfficiency",
+                  "sleepStartTime",
+                  "sleepEndTime",
+                  "sleepDuration",
+                  "sleepEventTotal"
+                ],
+                "properties": {
+                  "sleepEfficiency": {
+                    "$id": "#/properties/DaysSleep/properties/sleep_entries/items/properties/sleepEfficiency",
+                    "type": "integer",
+                    "title": "The Sleepefficiency Schema",
+                    "default": 0,
+                    "examples": [
+                      93
+                    ]
+                  },
+                  "sleepStartTime": {
+                    "$id": "#/properties/DaysSleep/properties/sleep_entries/items/properties/sleepStartTime",
+                    "type": "string",
+                    "title": "The Sleepstarttime Schema",
+                    "default": "",
+                    "examples": [
+                      "2018-05-03T22:50:30.000"
+                    ],
+                    "pattern": "^(.*)$"
+                  },
+                  "sleepEndTime": {
+                    "$id": "#/properties/DaysSleep/properties/sleep_entries/items/properties/sleepEndTime",
+                    "type": "string",
+                    "title": "The Sleependtime Schema",
+                    "default": "",
+                    "examples": [
+                      "2018-05-04T07:35:30.000"
+                    ],
+                    "pattern": "^(.*)$"
+                  },
+                  "sleepDuration": {
+                    "$id": "#/properties/DaysSleep/properties/sleep_entries/items/properties/sleepDuration",
+                    "type": "integer",
+                    "title": "The Sleepduration Schema",
+                    "default": 0,
+                    "examples": [
+                      490
+                    ]
+                  },
+                  "sleepEventTotal": {
+                    "$id": "#/properties/DaysSleep/properties/sleep_entries/items/properties/sleepEventTotal",
+                    "type": "integer",
+                    "title": "The Sleepeventtotal Schema",
+                    "default": 0,
+                    "examples": [
+                      429
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    var ajv = new Ajv();
+    var validate = ajv.compile(schema);
 
     //function to handle our xhr response
     const handleResponse = (xhr) => {
@@ -152,6 +635,8 @@
               };
               console.log(JSON.stringify(dat));
               console.log(dat);
+              var valid = validate(dat);
+              console.log(valid);
             }
           });
         }
